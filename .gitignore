@@ -103,3 +103,5 @@ crashlytics.properties
 crashlytics-build.properties
 
 app/cache
+
+app/config/config.php
