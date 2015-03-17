@@ -1,8 +1,10 @@
 <?php
 
-use Phalcon\Mvc\Controller;
+	namespace increase\controllers;
 
-class ControllerBase extends Controller
-{
+	use Phalcon\Mvc\Controller;
 
-}
+	class ControllerBase extends Controller
+	{
+
+	}

@@ -1,15 +1,10 @@
-<h1>Mes projects [user.identite]</h1>
-
-{% foreach (project in projects) %}
-    {% for nom in project.nom %}
-        <p>{{ project.nom }}</p>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
-                {{ project.progress }}
-            </div>
+<div class="col-md-1">
+    <img src="http://dogecoin.com/imgs/doge.png">
+</div>
+<div class="col-md-11">
+    <div class="panel">
+        <div class="panel-heading">
+            <h1 class="panel-title">project.name</h1>
         </div>
-        <p>{{ project.tempRest }}</p>
-        
-    {% endfor %}
-{% endfor %}
-
+    </div>
+</div>
