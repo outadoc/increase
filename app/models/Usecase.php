@@ -43,8 +43,13 @@
 
 		public function initialize()
 		{
-			$this->belongsTo("idProjet", "Projet", "id");
-			$this->belongsTo("idDev", "User", "id");
+			$this->belongsTo("idProjet", 'increase\models\Projet', "id", array(
+				'alias' => 'Projet'
+			));
+
+			$this->belongsTo("idDev", 'increase\models\User', "id", array(
+				'alias' => 'User'
+			));
 		}
 
 		/**

@@ -1,12 +1,12 @@
 <div class="col-md-2">
     <a href="#" class="thumbnail">
-        <img src="http://dogecoin.com/imgs/doge.png">
+        {{ image("img/" ~ project.getNom() ~ ".png") }}
     </a>
 </div>
 <div class="col-md-10">
     <div class="page-header">
-        <h1>project.name
-            <small>[user.identite]</small>
+        <h1>{{ project.getNom() }}
+            <small>[{{ project.getUser().getIdentite() }}]</small>
         </h1>
     </div>
     <div class="panel panel-default">
@@ -14,12 +14,7 @@
             <h1 class="panel-title">Détails du projet</h1>
         </div>
         <div class="panel-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed massa orci, dapibus eu nisl faucibus,
-                aliquam elementum mi. Suspendisse potenti. Praesent vehicula euismod lectus ac euismod. Suspendisse
-                dictum feugiat purus ultricies finibus. Vestibulum pulvinar posuere velit, vitae rutrum neque mollis at.
-                Etiam lobortis neque vitae elementum laoreet. Donec ligula nibh, lobortis nec elementum at, faucibus nec
-                enim. Fusce mattis diam at pellentesque ornare. Vivamus pretium, turpis tempus ultricies tempus, ligula
-                odio posuere eros, ut vestibulum urna augue in nisl.</p>
+            <p>{{ project.getDescription() }}</p>
         </div>
     </div>
     <div class="panel panel-default">

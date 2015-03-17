@@ -43,7 +43,9 @@
 
 		public function initialize()
 		{
-			$this->belongsTo("idClient", "User", "id");
+			$this->belongsTo("idClient", 'increase\models\User', "id", array(
+				'alias' => 'User'
+			));
 		}
 
 		/**
