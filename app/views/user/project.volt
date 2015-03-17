@@ -15,6 +15,8 @@
         </div>
         <div class="panel-body">
             <p>{{ project.getDescription() }}</p>
+            <p>Date de lancement : {{ project.getDateLancementStr() }}</p>
+            <p>Date de fin prévue : {{ project.getDateFinPrevueStr() }}</p>
         </div>
     </div>
     <div class="panel panel-default">

@@ -9,7 +9,7 @@
 
 		public function projectAction($id)
 		{
-			$project = Projet::findFirst(array("id" => $id));
+			$project = Projet::findFirst($id);
 
 			$this->view->setVar("project", $project);
 		}

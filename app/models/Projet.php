@@ -166,6 +166,11 @@
 			return $this->dateLancement;
 		}
 
+		public function getDatelancementStr()
+		{
+			return date('d/m/Y', strtotime($this->dateLancement));
+		}
+
 		/**
 		 * Returns the value of field dateFinPrevue
 		 *
@@ -174,6 +179,11 @@
 		public function getDatefinprevue()
 		{
 			return $this->dateFinPrevue;
+		}
+
+		public function getDatefinprevueStr()
+		{
+			return date('d/m/Y', strtotime($this->dateFinPrevue));
 		}
 
 		/**
