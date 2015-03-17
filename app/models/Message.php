@@ -49,9 +49,17 @@
 
 		public function initialize()
 		{
-			$this->belongsTo("idUser", "User", "id");
-			$this->belongsTo("idProjet", "Projet", "id");
-			$this->belongsTo("idFil", "Message", "id");
+			$this->belongsTo("idUser", 'increase\models\User', "id", array(
+				'alias' => 'User'
+			));
+
+			$this->belongsTo("idProjet", 'increase\models\Projet', "id", array(
+				'alias' => 'Projet'
+			));
+
+			$this->belongsTo("idFil", 'increase\models\Message', "id", array(
+				'alias' => 'Message'
+			));
 		}
 
 		/**

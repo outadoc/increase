@@ -37,7 +37,9 @@
 
 		public function initialize()
 		{
-			$this->belongsTo("codeUseCase", "Usecase", "code");
+			$this->belongsTo("codeUseCase", 'increase\models\Usecase', "code", array(
+				'alias' => 'Usecase'
+			));
 		}
 
 		/**

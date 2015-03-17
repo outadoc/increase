@@ -61,13 +61,6 @@
 		));
 	});
 
-	/**
-	 * If the configuration specify the use of metadata adapter use it or use memory otherwise
-	 */
-	$di->set('modelsMetadata', function () {
-		return new MetaDataAdapter();
-	});
-
 	//Registering a dispatcher
 	$di->set('dispatcher', function () {
 		$dispatcher = new \Phalcon\Mvc\Dispatcher();
