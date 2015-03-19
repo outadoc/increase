@@ -3,6 +3,7 @@
 	namespace increase\controllers;
 
 	use increase\models\Projet;
+	use increase\models\User;
 
 	class UserController extends ControllerBase
 	{
@@ -14,9 +15,15 @@
 			$this->view->setVar("project", $project);
 		}
 
-		public function projectsAction()
+		public function projectsAction($id)
 		{
+			$Client = User::findfirst(array("id" => $id));
 
+			$this->view->setVar("Client", $Client);
+
+			$projects = Projet::find(array("idClient" => $id));
+
+			$this->view->setVar("projects", $projects);
 		}
 
 	}
