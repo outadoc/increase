@@ -48,11 +48,11 @@
 			));
 
 			$this->hasMany("id", 'increase\models\Message', "idProjet", array(
-				'alias' => 'Message'
+				'alias' => 'Messages'
 			));
 
 			$this->hasMany("id", 'increase\models\Usecase', "idProjet", array(
-				'alias' => 'Usecase'
+				'alias' => 'Usecases'
 			));
 		}
 

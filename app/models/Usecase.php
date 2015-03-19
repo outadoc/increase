@@ -52,7 +52,7 @@
 			));
 
 			$this->hasMany("code", 'increase\models\Tache', "codeUseCase", array(
-				'alias' => 'Tache'
+				'alias' => 'Taches'
 			));
 		}
 

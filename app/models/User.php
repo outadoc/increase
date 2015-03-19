@@ -38,15 +38,15 @@
 		public function initialize()
 		{
 			$this->hasMany("id", 'increase\models\Usecase', "idDev", array(
-				'alias' => 'Usecase'
+				'alias' => 'Usecases'
 			));
 
 			$this->hasMany("id", 'increase\models\Message', "idUser", array(
-				'alias' => 'Message'
+				'alias' => 'Messages'
 			));
 
 			$this->hasMany("id", 'increase\models\Projet', "idClient", array(
-				'alias' => 'Projet'
+				'alias' => 'Projets'
 			));
 		}
 
