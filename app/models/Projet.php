@@ -46,6 +46,14 @@
 			$this->belongsTo("idClient", 'increase\models\User', "id", array(
 				'alias' => 'User'
 			));
+
+			$this->hasMany("id", 'increase\models\Message', "idProjet", array(
+				'alias' => 'Message'
+			));
+
+			$this->hasMany("id", 'increase\models\Usecase', "idProjet", array(
+				'alias' => 'Usecase'
+			));
 		}
 
 		/**

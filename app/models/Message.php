@@ -60,6 +60,12 @@
 			$this->belongsTo("idFil", 'increase\models\Message', "id", array(
 				'alias' => 'Message'
 			));
+
+			$this->hasMany("id", 'increase\models\Message', "idFil", array(
+				'alias' => 'Fil'
+			));
+
+
 		}
 
 		/**

@@ -50,6 +50,10 @@
 			$this->belongsTo("idDev", 'increase\models\User', "id", array(
 				'alias' => 'User'
 			));
+
+			$this->hasMany("code", 'increase\models\Tache', "codeUseCase", array(
+				'alias' => 'Tache'
+			));
 		}
 
 		/**

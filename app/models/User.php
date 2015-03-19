@@ -35,6 +35,21 @@
 		 */
 		protected $role;
 
+		public function initialize()
+		{
+			$this->hasMany("id", 'increase\models\Usecase', "idDev", array(
+				'alias' => 'Usecase'
+			));
+
+			$this->hasMany("id", 'increase\models\Message', "idUser", array(
+				'alias' => 'Message'
+			));
+
+			$this->hasMany("id", 'increase\models\Projet', "idClient", array(
+				'alias' => 'Projet'
+			));
+		}
+
 		/**
 		 * Method to set the value of field id
 		 *
