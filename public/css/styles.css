@@ -96,3 +96,7 @@ body {
 .page-header {
     margin-top: 0;
 }
+
+#usecases-panel .progress {
+    margin-bottom: 0;
+}
