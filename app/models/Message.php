@@ -64,8 +64,6 @@
 			$this->hasMany("id", 'increase\models\Message', "idFil", array(
 				'alias' => 'Children'
 			));
-
-
 		}
 
 		/**
@@ -197,6 +195,11 @@
 		public function getDate()
 		{
 			return $this->date;
+		}
+
+		public function getFormattedDate()
+		{
+			return date("d/m/Y à H:i", strtotime($this->date));
 		}
 
 		/**

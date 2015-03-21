@@ -3,8 +3,9 @@
         <div class="msg panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    {{ message.getEmetteur().getIdentite() }} - {{ message.getObjet() }}
-                    <small>{{ message.getDate() }}</small>
+                    <span class="msg-object">{{ message.getObjet() }}</span>
+                    <span class="msg-author"> par {{ message.getEmetteur().getIdentite() }}</span>
+                    <span class="msg-date">{{ message.getFormattedDate() }}</span>
                 </h3>
             </div>
             <div class="msg-content panel-body">
