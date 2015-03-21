@@ -1,3 +1,22 @@
+{%- macro display_message(message, parentId) %}
+    {% if message.getIdFil() == null or message.getIdFil() == parentId %}
+        <div class="msg panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{ message.getEmetteur().getIdentite() }} - {{ message.getObjet() }}
+                    <small>{{ message.getDate() }}</small>
+                </h3>
+            </div>
+            <div class="msg-content panel-body">
+                {{ message.getContent() }}
+                {% for child in message.getChildren() %}
+                    {{ display_message(child, message.getId()) }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{%- endmacro %}
+
 <div class="col-md-2">
     <a href="#" class="thumbnail">
         {{ image("img/" ~ project.getNom() ~ ".png") }}
@@ -29,10 +48,12 @@
         </ul>
     </div>
     <div class="btns">
-        <a id="btnMessages" class="btn btn-primary">{x} Messages...</a>
+        <a id="btnMessages" class="btn btn-primary">{{ messages | length }} messages...</a>
     </div>
     <div id="divMessages">
-
+        {% for message in messages %}
+            {{ display_message(message, -1) }}
+        {% endfor %}
     </div>
 </div>
 <script type="text/javascript">

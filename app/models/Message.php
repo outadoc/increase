@@ -50,7 +50,7 @@
 		public function initialize()
 		{
 			$this->belongsTo("idUser", 'increase\models\User', "id", array(
-				'alias' => 'User'
+				'alias' => 'Emetteur'
 			));
 
 			$this->belongsTo("idProjet", 'increase\models\Projet', "id", array(
@@ -58,11 +58,11 @@
 			));
 
 			$this->belongsTo("idFil", 'increase\models\Message', "id", array(
-				'alias' => 'Message'
+				'alias' => 'Parent'
 			));
 
 			$this->hasMany("id", 'increase\models\Message', "idFil", array(
-				'alias' => 'Fil'
+				'alias' => 'Children'
 			));
 
 

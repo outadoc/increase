@@ -11,8 +11,10 @@
 		public function projectAction($id)
 		{
 			$project = Projet::findFirst($id);
+			$messages = $project->getMessages_();
 
 			$this->view->setVar("project", $project);
+			$this->view->setVar("messages", $messages);
 		}
 
 		public function projectsAction($id)
