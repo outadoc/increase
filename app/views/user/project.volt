@@ -50,8 +50,9 @@
     </div>
     <div class="btns">
         <a id="btnMessages" class="btn btn-primary">{{ messages | length }} messages...</a>
+        <a id="btnClose" class="btn btn-default">Fermer le projet</a>
     </div>
-    <div id="divMessages">
+    <div id="divMessages" style="display: none">
         {% for message in messages %}
             {{ display_message(message, -1) }}
         {% endfor %}
@@ -59,7 +60,10 @@
 </div>
 <script type="text/javascript">
 
-    var panelEquipe = $("#team-panel");
+    var panelEquipe = $("#team-panel"),
+            btnMessages = $("#btnMessages"),
+            btnClose = $("#btnClose"),
+            divMessages = $("#divMessages");
 
     $.ajax('{{ url("project/equipe/" ~ project.getId()) }}')
             .done(function (equipe) {
@@ -71,5 +75,12 @@
 
             });
 
+    btnMessages.click(function () {
+        divMessages.toggle(500);
+    });
+
+    btnClose.click(function() {
+       window.location = "{{ url('user/projects/' ~ project.getIdclient()) }}";
+    });
 
 </script>
