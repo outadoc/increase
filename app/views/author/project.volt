@@ -30,8 +30,8 @@
                     '<span class="usecase-code">' + usecases[i].code + '</span> ' +
                     '<span class="usecase-weight">(' + usecases[i].weight + ')</span>' +
                     '</div>' +
-                    '<div class="col-md-8">' + getProgressBar(usecases[i].progress) + '</div>' +
-                    '<div class="col-md-2">' +
+                    '<div class="col-md-6 col-md-offset-1">' + getProgressBar(usecases[i].progress) + '</div>' +
+                    '<div class="col-md-2 col-md-offset-1">' +
                     '<span class="nb-taches">' +
                     usecases[i].nb_tasks + ' ' + ((usecases[i].nb_tasks == 1) ? 'tâche' : 'tâches') + '' +
                     '</span>' +
