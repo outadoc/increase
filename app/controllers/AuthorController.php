@@ -8,11 +8,15 @@ use increase\models\User;
 class AuthorController extends ControllerBase
 {
 
-    public function projectAction($id)
+    public function projectAction($projectId, $authorId)
     {
-        $project = Projet::findFirst($id);
+	    $project = Projet::findFirst($projectId);
+	    $messages = $project->getMessages_();
+	    $author = User::findFirst($authorId);
 
-        $this->view->setVar("project", $project);
+	    $this->view->setVar("project", $project);
+	    $this->view->setVar("messages", $messages);
+	    $this->view->setVar("author", $author);
     }
 
     public function projectsAction($id)
