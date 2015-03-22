@@ -27,7 +27,7 @@
                     '<a href="#" class="list-group-item usecase" data-code="' + usecases[i].code + '">' +
                     '<div class="row">' +
                     '<div class="col-md-3">' +
-                    '<span class="usecase-code">' + usecases[i].code + '</span> ' +
+                    '<span class="usecase-code"><strong>' + usecases[i].code + '</strong></span> ' +
                     '<span class="usecase-weight">(' + usecases[i].weight + ')</span>' +
                     '</div>' +
                     '<div class="col-md-5 col-md-offset-1">' + getProgressBar(usecases[i].progress) + '</div>' +
@@ -37,9 +37,9 @@
                     '</span>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="row" id="divUseCase-' + usecases[i].code + '" style="display: none">' +
-                    '</div>' +
-                    '</a>');
+                    '</a>' +
+                    '<div class="list-group-item list-group liste-taches" id="divUseCase-' + usecases[i].code + '" style="display: none">' +
+                    '</div>');
                 }
 
                 $(".usecase").click(function (e) {
@@ -54,9 +54,32 @@
 
                                 for (var i = 0; i < tasks.length; i++) {
                                     divUseCase.append('' +
+                                    '<a href="#" class="list-group-item tache">' +
+                                    '<div class="row">' +
                                     '<div class="col-md-5"><strong>' + tasks[i].label + '</strong> (' + tasks[i].progress + '%)</div>' +
-                                    '<div class="col-md-2 col-md-offset-5">' + tasks[i].date + '</div>');
+                                    '<div class="col-md-2 col-md-offset-5">' + tasks[i].date + '</div>' +
+                                    '</div>' +
+                                    '</a>');
                                 }
+
+                                divUseCase.append('' +
+                                '<div style="margin-top: 20px">' +
+                                '<button class="btn btn-primary">Ajouter une tâche</button>' +
+                                '<span class="btns" style="display: none">' +
+                                '<button class="btn btn-default">Modifier...</button>' +
+                                '<button class="btn btn-default">Supprimer</button>' +
+                                '</span>' +
+                                '</div>');
+
+                                $(".tache").click(function (e) {
+                                    e.preventDefault();
+
+                                    var list = $(this).parent(".liste-taches");
+
+                                    $(list).find(".tache").removeClass("active");
+                                    $(list).find(".btns").show();
+                                    $(this).addClass("active");
+                                });
 
                                 divUseCase.toggle(300);
                             });
