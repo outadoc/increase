@@ -101,3 +101,7 @@ body {
 #usecases-panel .progress {
     margin-bottom: 0;
 }
+
+.usecase table {
+    margin-bottom: 0;
+}

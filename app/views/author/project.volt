@@ -6,8 +6,8 @@
         <div class="panel-heading">
             <h1 class="panel-title">Mes cas d'utilisation</h1>
         </div>
-        <ul class="list-group" id="usecases-panel">
-        </ul>
+        <div class="list-group" id="usecases-panel">
+        </div>
     </div>
 </div>
 
@@ -24,7 +24,7 @@
 
                 for (var i = 0; i < usecases.length; i++) {
                     panelUsecases.append('' +
-                    '<li class="list-group-item">' +
+                    '<a href="#" class="list-group-item usecase" data-code="' + usecases[i].code + '">' +
                     '<div class="row">' +
                     '<div class="col-md-3">' +
                     '<span class="usecase-code">' + usecases[i].code + '</span> ' +
@@ -37,8 +37,30 @@
                     '</span>' +
                     '</div>' +
                     '</div>' +
-                    '</li>');
+                    '<div class="row" id="divUseCase-' + usecases[i].code + '" style="display: none">' +
+                    '</div>' +
+                    '</a>');
                 }
+
+                $(".usecase").click(function (e) {
+                    var code = $(this).attr("data-code");
+
+                    e.preventDefault();
+                    $.ajax('{{ url("usecase/taches/") }}' + code)
+                            .done(function (tasks) {
+                                var divUseCase = $("#divUseCase-" + code);
+
+                                divUseCase.empty();
+
+                                for (var i = 0; i < tasks.length; i++) {
+                                    divUseCase.append('' +
+                                    '<div class="col-md-5"><strong>' + tasks[i].label + '</strong> (' + tasks[i].progress + '%)</div>' +
+                                    '<div class="col-md-2 col-md-offset-5">' + tasks[i].date + '</div>');
+                                }
+
+                                divUseCase.toggle(300);
+                            });
+                });
 
             });
 
