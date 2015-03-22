@@ -70,18 +70,13 @@
 			$result = array();
 
 			foreach ($usecases as $usecase) {
-				$progress = 0;
 				$nbTaches = count($usecase->getTaches());
-
-				foreach($usecase->getTaches() as $tache) {
-					$progress += $tache->getAvancement();
-				}
 
 				$result[] = array(
 					"code"     => $usecase->getCode(),
 					"weight"   => (int) $usecase->getPoids(),
 					"nb_tasks" => $nbTaches,
-					"progress" => $nbTaches > 0 ? $progress / count($usecase->getTaches()) : 0
+					"progress" => $usecase->getAvancement()
 				);
 			}
 
