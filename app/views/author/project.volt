@@ -36,6 +36,7 @@
                     </div>
 
                     <input type="hidden" value="" id="modal-id">
+                    <input type="hidden" value="" id="modal-usecase-id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -137,6 +138,7 @@
             $("#modal-poids").val(tache.progress);
             $("#modal-date").val(tache.date);
             $("#modal-id").val(tache.id);
+            $("#modal-usecase-id").val(code);
 
             $('#modal-add-task').modal();
         });
@@ -147,6 +149,7 @@
             $("#modal-poids").val("");
             $("#modal-date").val("");
             $("#modal-id").val("");
+            $("#modal-usecase-id").val("");
 
             $('#modal-add-task').modal();
         });
@@ -167,10 +170,27 @@
     });
 
     btnModalSubmit.click(function () {
-        var modalId = $("#modal-id");
-        var id = modalId.attr("value");
+        var id = $("#modal-id").val(),
+                url = "";
 
+        if (id != "") {
+            url = {{ url('tache/update/') }} + id;
+        } else {
+            url = {{ url('tache/add/') }};
+        }
 
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                libelle: $("modal-libelle").val(),
+                date: $("modal-date").val(),
+                avancement: $("#modal-poids").val(),
+                codeUseCase: $("#modal-usecase-id").val()
+            }
+        }).done(function () {
+            $("modal-add-task").modal('hide');
+        });
     });
 
 </script>
