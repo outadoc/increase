@@ -174,9 +174,9 @@
                 url = "";
 
         if (id != "") {
-            url = {{ url('tache/update/') }} + id;
+            url = "{{ url('tache/update/') }}" + id;
         } else {
-            url = {{ url('tache/add/') }};
+            url = "{{ url('tache/insert/') }}";
         }
 
         $.ajax({
