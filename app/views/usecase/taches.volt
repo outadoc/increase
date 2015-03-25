@@ -6,3 +6,13 @@
         </div>
     </a>
 {% endfor %}
+
+<div style="margin-top: 20px">
+    <button class="btn btn-primary">Ajouter une tâche</button>
+    <span class="btns" style="display: none">
+        <button class="btn btn-default">Modifier...</button>
+        <button class="btn btn-default">Supprimer</button>
+    </span>
+</div>
+
+{{ script_foot }}
