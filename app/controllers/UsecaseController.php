@@ -27,6 +27,8 @@
 			$this->jquery->click(".tache", $this->jquery->addClass("this", "active"));
 
 			$this->jquery->click(".btn-add-task", "$('#modal-add-task').modal()");
+			$this->jquery->getAndBindTo(".btn-rm-task",
+				"usecase/delete/' + $(this).parent('.liste-taches').find('.active').data('id') + '");
 
 			$this->jquery->compile($this->view);
 

@@ -33,4 +33,14 @@
 			$task->save();
 			$this->view->disable();
 		}
+
+		public function deleteAction($id) {
+			$task = Tache::findFirst($id);
+
+			if($task != null) {
+				//$task->delete();
+			}
+
+			$this->view->disable();
+		}
 	}
