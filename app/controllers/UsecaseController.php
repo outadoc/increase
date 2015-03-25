@@ -23,7 +23,7 @@
 			}
 
 			$this->view->setRenderLevel(View::LEVEL_LAYOUT);
-			$this->view->setVar("tasks", $tasks);
+			$this->view->setVar("tasks", $result);
 		}
 
 	}

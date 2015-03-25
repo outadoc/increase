@@ -22,6 +22,8 @@
             </div>
         </div>
     </a>
-    <div class="list-group-item list-group liste-taches" id="divUseCase-{{ usecase['code'] }}" style="display: none">
+    <div class="list-group-item list-group liste-taches" id="divUseCase-{{ usecase['code'] }}" style="display: block">
     </div>
 {% endfor %}
+
+{{ script_foot }}

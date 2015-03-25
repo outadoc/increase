@@ -73,7 +73,13 @@
 					"nb_tasks" => $nbTaches,
 					"progress" => $usecase->getAvancement()
 				);
+
+				$this->jquery->getAndBindTo("#useCase-" . $usecase->getCode(),
+					"click", "usecase/taches/" . $usecase->getCode(),
+					"#divUseCase-" . $usecase->getCode());
 			}
+
+			$this->jquery->compile($this->view);
 
 			$this->view->setRenderLevel(View::LEVEL_LAYOUT);
 			$this->view->setVar("usecases", $result);
