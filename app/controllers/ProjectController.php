@@ -47,17 +47,12 @@
 				$devs[] = array(
 					"id"     => $dev->getId(),
 					"name"   => $dev->getIdentite(),
-					"weight" => round($devWeights[$dev->getId()] / $total, 4)
+					"weight" => round($devWeights[$dev->getId()] / $total * 100, 4)
 				);
 			}
 
-			$this->view->disable();
-
-			$response = new \Phalcon\Http\Response();
-			$response->setHeader("Content-Type", "application/json");
-			$response->setContent(json_encode($devs));
-
-			return $response;
+			$this->view->setRenderLevel(View::LEVEL_LAYOUT);
+			$this->view->setVar("devs", $devs);
 		}
 
 		public function authorAction($projectId, $authorId)
@@ -74,7 +69,7 @@
 
 				$result[] = array(
 					"code"     => $usecase->getCode(),
-					"weight"   => (int) $usecase->getPoids(),
+					"weight"   => (int)$usecase->getPoids(),
 					"nb_tasks" => $nbTaches,
 					"progress" => $usecase->getAvancement()
 				);

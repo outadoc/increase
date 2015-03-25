@@ -77,7 +77,7 @@ public/css/bootstrap.min-old.css
 
 # Gradle:
 # .idea/gradle.xml
-# .idea/libraries
+# .idea/library
 
 # Mongo Explorer plugin:
 # .idea/mongoSettings.xml
