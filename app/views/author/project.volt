@@ -47,8 +47,17 @@
     </div>
 </div>
 
-{# On inclut les messages #}
-{{ partial("/partials/messages") }}
+<div class="col-md-10 col-md-offset-2">
+    <div class="btns">
+        <a id="btnMessages" class="btn btn-primary">{{ messages | length }} messages...</a>
+        <a id="btnClose" class="btn btn-default">Fermer le projet</a>
+    </div>
+
+    {# On inclut les messages #}
+    {{ partial("/partials/messages") }}
+</div>
+
+{{script_foot}}
 
 <script type="text/javascript">
 
@@ -164,10 +173,6 @@
 
     $.ajax('{{ url("project/author/" ~ project.getId() ~ "/" ~ author.getId()) }}')
             .done(onLoadedUsecases);
-
-    btnClose.click(function () {
-        window.location = "{{ url('author/projects/' ~ author.getId()) }}";
-    });
 
     btnModalSubmit.click(function () {
         var id = $("#modal-id").val(),

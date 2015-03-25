@@ -22,25 +22,8 @@
     {% endif %}
 {%- endmacro %}
 
-<div class="col-md-10 col-md-offset-2">
-    <div class="btns">
-        <a id="btnMessages" class="btn btn-primary">{{ messages | length }} messages...</a>
-        <a id="btnClose" class="btn btn-default">Fermer le projet</a>
-    </div>
-    <div id="divMessages" style="display: none">
-        {% for message in messages %}
-            {{ display_message(message, -1) }}
-        {% endfor %}
-    </div>
+<div id="divMessages" style="display: none">
+    {% for message in messages %}
+        {{ display_message(message, -1) }}
+    {% endfor %}
 </div>
-
-<script type="text/javascript">
-
-    var divMessages = $("#divMessages"),
-            btnMessages = $("#btnMessages");
-
-    btnMessages.click(function () {
-        divMessages.toggle(500);
-    });
-
-</script>

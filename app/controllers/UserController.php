@@ -15,6 +15,7 @@
 
 			$this->jquery->getAndBindTo("#btnClose", "click", 'user/projects/' . $project->getIdclient(), "html");
 			$this->jquery->get("project/equipe/" . $id, "#team-panel");
+			$this->jquery->click("#btnMessages", $this->jquery->toggle("#divMessages"));
 			$this->jquery->compile($this->view);
 
 			$this->view->setVar("project", $project);

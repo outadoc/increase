@@ -11,7 +11,14 @@
     </div>
 </div>
 
-{# On inclut les messages #}
-{{ partial("/partials/messages") }}
+<div class="col-md-10 col-md-offset-2">
+    <div class="btns">
+        <a id="btnMessages" class="btn btn-primary">{{ messages | length }} messages...</a>
+        <a id="btnClose" class="btn btn-default">Fermer le projet</a>
+    </div>
+
+    {# On inclut les messages #}
+    {{ partial("/partials/messages") }}
+</div>
 
 {{script_foot}}
