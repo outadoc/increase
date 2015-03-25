@@ -204,4 +204,28 @@
 			return $this->idClient;
 		}
 
+		public function getAvancement() {
+			$usecases = $this->getUsecases();
+			$total = 0;
+			$res = 0;
+			foreach ($usecases as $usecase) {
+				$total += $usecase->getPoids();
+			}
+
+			foreach ($usecases as $usecase) {
+				$res += $usecase->getPoids() / $total * 100 * $usecase->getAvancement();
+			}
+
+			return round($res /100);
+		}
+
+		public function getJourRest() {
+			$DateFin = new \DateTime(strtotime($this ->dateFinPrevue));
+			$DateAuj = new \DateTime(date("Y-d-m"));
+			$res = date_diff($DateFin,$DateAuj);
+
+			return $res;
+
+		}
+
 	}

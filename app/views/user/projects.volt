@@ -1,11 +1,25 @@
 <h1>Mes projects [{{ Client.getIdentite() }}]</h1>
-
-{% for project in projects %}
-    <p>{{ project.getNom() }}</p>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
-                {{ project.progress }}
+<br>
+<table width="100%">
+    {% for project in projects %}
+        <tr>
+            <td width="20%">
+                {{ project.getNom() }}
+            </td>
+            <td width="50%">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.getAvancement() }}" aria-valuemin="0" aria-valuemax="100"
+                     style="width: {{ project.getAvancement() }}%;">
+                    {{ project.getAvancement() }}%
+                </div>
             </div>
-        </div>
-        <p>{{ project.getDatefinprevue()-date('now') }}</p>
-{% endfor %}
+            </td>
+            <td width="10%" style="text-align: center">
+            <p>{{ project.getJourRest()}}</p>
+            </td>
+            <td width="10%">
+                <button>ouvrir</button>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
