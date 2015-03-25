@@ -3,8 +3,8 @@
 {% for project in projects %}
     <p>{{ project.getNom() }}</p>
     <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
-            {{ project.progress }}
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.getAvancement() }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
+            {{ project.getAvancement() }}
         </div>
     </div>
     <p>{{ project.getDatefinprevue()-date('now') }}</p>
