@@ -3,6 +3,7 @@
 	namespace increase\controllers;
 
 	use increase\models\Tache;
+	use Phalcon\Mvc\View;
 
 	class UsecaseController extends ControllerBase
 	{
@@ -21,13 +22,8 @@
 				);
 			}
 
-			$this->view->disable();
-
-			$response = new \Phalcon\Http\Response();
-			$response->setHeader("Content-Type", "application/json");
-			$response->setContent(json_encode($result));
-
-			return $response;
+			$this->view->setRenderLevel(View::LEVEL_LAYOUT);
+			$this->view->setVar("tasks", $tasks);
 		}
 
 	}

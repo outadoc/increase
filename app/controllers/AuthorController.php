@@ -15,6 +15,7 @@
 			$author   = User::findFirst($authorId);
 
 			$this->jquery->getAndBindTo("#btnClose", "click", 'author/projects/' . $authorId, "html");
+			$this->jquery->get('project/author/' . $projectId . '/' . $authorId, "#usecases-panel");
 			$this->jquery->click("#btnMessages", $this->jquery->toggle("#divMessages"));
 			$this->jquery->compile($this->view);
 
