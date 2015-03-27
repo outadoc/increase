@@ -10,8 +10,13 @@
 
 		public function projectAction($id)
 		{
-			$project = Projet::findFirst($id);
+			$project  = Projet::findFirst($id);
 			$messages = $project->getMessages_();
+
+			$this->jquery->getAndBindTo("#btnClose", "click", 'user/projects/' . $project->getIdclient(), "html");
+			$this->jquery->get("project/equipe/" . $id, "#team-panel");
+			$this->jquery->click("#btnMessages", $this->jquery->toggle("#divMessages"));
+			$this->jquery->compile($this->view);
 
 			$this->view->setVar("project", $project);
 			$this->view->setVar("messages", $messages);

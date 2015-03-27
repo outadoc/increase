@@ -8,14 +8,15 @@
 	$loader->registerDirs(
 		array(
 			$config->application->controllersDir,
-			$config->application->modelsDir
+			$config->application->modelsDir,
+			$config->application->libraryDir
 		)
 	);
 
 	$loader->registerNamespaces(
 		array(
 			'increase\controllers' => $config->application->controllersDir,
-			'increase\models'      => $config->application->modelsDir,
+			'increase\models'      => $config->application->modelsDir
 		)
 	);
 

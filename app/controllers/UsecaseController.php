@@ -3,6 +3,7 @@
 	namespace increase\controllers;
 
 	use increase\models\Tache;
+	use Phalcon\Mvc\View;
 
 	class UsecaseController extends ControllerBase
 	{
@@ -21,13 +22,16 @@
 				);
 			}
 
-			$this->view->disable();
+			$this->jquery->click(".tache", $this->jquery->show("$(this).parent().find('.btns')"));
+			$this->jquery->click(".tache", $this->jquery->removeClass("$(this).parent().find('.tache')", "active"));
+			$this->jquery->click(".tache", $this->jquery->addClass("this", "active"));
 
-			$response = new \Phalcon\Http\Response();
-			$response->setHeader("Content-Type", "application/json");
-			$response->setContent(json_encode($result));
+			$this->jquery->click(".btn-add-task", "$('#modal-add-task').modal()");
 
-			return $response;
+			$this->jquery->compile($this->view);
+
+			$this->view->setRenderLevel(View::LEVEL_LAYOUT);
+			$this->view->setVar("tasks", $result);
 		}
 
 	}
