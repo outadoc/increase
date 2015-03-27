@@ -8,7 +8,7 @@
             </td>
             <td width="50%">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="{{ project.getAvancement() }}" aria-valuemin="0" aria-valuemax="100"
+                <div class="progress-bar progress-bar-{{ couleur }}" role="progressbar" aria-valuenow="{{ project.getAvancement() }}" aria-valuemin="0" aria-valuemax="100"
                      style="width: {{ project.getAvancement() }}%;">
                     {{ project.getAvancement() }}%
                 </div>
