@@ -31,6 +31,30 @@
 
 			$this->view->setVar("Author", $author);
 			$this->view->setVar("projects", $projects);
+
+			foreach ($projects as $project) {
+				$this->jquery->getAndBindTo("#btnOuvrir", "click", 'author/project/' . $project->getIdclient(), "html");
+			}
+
+			foreach ($projects as $project) {
+				$avancement = $project->getAvancement();
+				$DateFin = new \DateTime($project->dateFinPrevue);
+				$DateDeb = new \DateTime($project->dateLancement);
+				$DateAuj = new \DateTime();
+				$dureeTotal = date_diff($DateDeb, $DateFin);
+				$dureeEcoule = date_diff($DateAuj, $DateFin);
+				$temp = ($dureeEcoule / $dureeTotal) * 100;
+				if ($temp > 100) {
+					$this->view->setVar("couleur","danger");
+				}
+				elseif ($avancement >= $temp){
+					$this->view->setVar("couleur","success");
+				}
+				elseif ($avancement < $temp)
+					$this->view->setVar("couleur","warning");
+			}
+
+			$this->jquery->getAndBindTo("#btn", "click", "exemple/reponse","#panelReponse");
 		}
 
 	}

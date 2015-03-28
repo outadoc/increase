@@ -22,7 +22,7 @@
 			$this->view->setVar("messages", $messages);
 		}
 
-		public function projectsAction($id, $couleur)
+		public function projectsAction($id)
 		{
 			$Client = User::findfirst(array("id" => $id));
 
@@ -31,6 +31,10 @@
 			$projects = Projet::find(array("idClient" => $id));
 
 			$this->view->setVar("projects", $projects);
+
+			foreach ($projects as $project) {
+				$this->jquery->getAndBindTo("#btnOuvrir", "click", 'user/project/' . $project->getIdclient(), "html");
+			}
 
 			foreach ($projects as $project) {
 				$avancement = $project->getAvancement();
@@ -49,6 +53,8 @@
 				elseif ($avancement < $temp)
 					$this->view->setVar("couleur","warning");
 			}
+
+			$this->jquery->getAndBindTo("#btn", "click", "exemple/reponse","#panelReponse");
 		}
 
 
