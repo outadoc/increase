@@ -44,17 +44,17 @@
 				$dureeTotal = date_diff($DateDeb, $DateFin);
 				$dureeEcoule = date_diff($DateAuj, $DateFin);
 				$temp = ($dureeEcoule / $dureeTotal) * 100;
+
 				if ($temp > 100) {
 					$this->view->setVar("couleur","danger");
-				}
-				elseif ($avancement >= $temp){
+				} else if ($avancement >= $temp){
 					$this->view->setVar("couleur","success");
-				}
-				elseif ($avancement < $temp)
+				} else if ($avancement < $temp)
 					$this->view->setVar("couleur","warning");
 			}
 
 			$this->jquery->getAndBindTo("#btn", "click", "exemple/reponse","#panelReponse");
+			$this->jquery->compile($this->view);
 		}
 
 	}

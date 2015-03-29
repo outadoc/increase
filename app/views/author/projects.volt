@@ -23,3 +23,5 @@
         </tr>
     {% endfor %}
 </table>
+
+{{ script_foot }}
