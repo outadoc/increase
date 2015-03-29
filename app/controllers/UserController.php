@@ -38,23 +38,26 @@
 
 			foreach ($projects as $project) {
 				$avancement = $project->getAvancement();
+
 				$DateFin = new \DateTime($project->dateFinPrevue);
 				$DateDeb = new \DateTime($project->dateLancement);
 				$DateAuj = new \DateTime();
-				$dureeTotal = date_diff($DateDeb, $DateFin);
+
+				$dureeTotal  = date_diff($DateDeb, $DateFin);
 				$dureeEcoule = date_diff($DateAuj, $DateFin);
+
 				$temp = ($dureeEcoule / $dureeTotal) * 100;
+
 				if ($temp > 100) {
-					$this->view->setVar("couleur","danger");
+					$this->view->setVar("couleur", "danger");
+				} else if ($avancement >= $temp) {
+					$this->view->setVar("couleur", "success");
+				} else if ($avancement < $temp) {
+					$this->view->setVar("couleur", "warning");
 				}
-				elseif ($avancement >= $temp){
-					$this->view->setVar("couleur","success");
-				}
-				elseif ($avancement < $temp)
-					$this->view->setVar("couleur","warning");
 			}
 
-			$this->jquery->getAndBindTo("#btn", "click", "exemple/reponse","#panelReponse");
+			$this->jquery->getAndBindTo("#btn", "click", "exemple/reponse", "#panelReponse");
 		}
 
 
