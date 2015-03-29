@@ -18,7 +18,7 @@
                 <p>{{ project.getJourRest()}}</p>
             </td>
             <td width="10%">
-                <button id="btnOuvrir" class="btn btn-default" >ouvrir</button>
+                <button id="btnOuvrir-{{ project.getId() }}" class="btn btn-default">Ouvrir</button>
             </td>
         </tr>
     {% endfor %}
