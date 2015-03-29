@@ -77,6 +77,7 @@
 				$this->jquery->getAndBindTo("#useCase-" . $usecase->getCode(),
 					"click", "usecase/taches/" . $usecase->getCode(),
 					"#divUseCase-" . $usecase->getCode(),
+					true,
 					"function() {" . $this->jquery->toggle("#divUseCase-" . $usecase->getCode()) . "}");
 			}
 
