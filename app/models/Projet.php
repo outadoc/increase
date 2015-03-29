@@ -220,11 +220,11 @@
 		}
 
 		public function getJourRest() {
-			$DateFin = new \DateTime(strtotime($this ->dateFinPrevue));
-			$DateAuj = new \DateTime(date("Y-d-m"));
-			$res = date_diff($DateFin,$DateAuj);
+			$DateFin = new \DateTime($this ->dateFinPrevue);
+			$DateAuj = new \DateTime();
+			$res = date_diff($DateAuj,$DateFin);
 
-			return $res;
+			return $res->format('%a jours restant');
 
 		}
 
