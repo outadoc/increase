@@ -26,7 +26,7 @@
 
 		public function projectsAction($id)
 		{
-			$author   = User::findfirst(array("id" => $id));
+			$author   = User::findfirst(array("id" => $id, "role" => "author"));
 			$projects = Projet::find(array("idAuthor" => $id));
 
 			$this->view->setVar("Author", $author);

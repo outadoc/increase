@@ -24,7 +24,7 @@
 
 		public function projectsAction($id)
 		{
-			$Client = User::findfirst(array("id" => $id));
+			$Client = User::findfirst(array("id" => $id, "role" => "user"));
 
 			$this->view->setVar("Client", $Client);
 
