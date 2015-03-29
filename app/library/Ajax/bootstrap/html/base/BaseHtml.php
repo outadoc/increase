@@ -1,6 +1,7 @@
 <?php
 namespace Ajax\bootstrap\html\base;
 use Ajax\JsUtils;
+use Ajax\service\AjaxCall;
 use Phalcon\Mvc\View;
 use Phalcon\Text;
 
@@ -113,8 +114,9 @@ abstract class BaseHtml extends BaseWidget {
 	}
 
 	protected function setMemberCtrl(&$name,$value,$typeCtrl){
-		if($this->ctrl($name, $value, $typeCtrl)===true)
+		if($this->ctrl($name, $value, $typeCtrl)===true){
 			return $name=$value;
+		}
 		return $this;
 	}
 
@@ -217,19 +219,77 @@ abstract class BaseHtml extends BaseWidget {
 		if($preventDefault===true){
 			$jsCode="event.preventDefault();".$jsCode;
 		}
-		$this->events[$event]=$jsCode;
+		$this->_addEvent($event, $jsCode);
 		return $this;
+	}
+
+	protected function _addEvent($event,$jsCode){
+		if(array_key_exists($event, $this->events)){
+			if(is_array($this->events[$event])){
+				$this->events[$event][]=$jsCode;
+			}else{
+				$this->events[$event]=array($this->events[$event],$jsCode);
+			}
+		}else{
+			$this->events[$event]=$jsCode;
+		}
 	}
 
 	public function on($event,$jsCode,$stopPropagation=false,$preventDefault=false){
 		return $this->addEvent($event, $jsCode,$stopPropagation,$preventDefault);
 	}
 
-	public function addEventsOnRun(){
+	public function addEventsOnRun(JsUtils $js){
 		if(isset($this->_bsComponent)){
 			foreach ($this->events as $event=>$jsCode){
-				$this->_bsComponent->addEvent($event,$jsCode);
+				$code=$jsCode;
+				if(is_array($jsCode)){
+					$code="";
+					foreach ($jsCode as $jsC){
+						if($jsC instanceof AjaxCall){
+							$code.="\n".$jsC->compile($js);
+						}else{
+							$code.="\n".$jsC;
+						}
+					}
+				}elseif($jsCode instanceof AjaxCall){
+					$code=$jsCode->compile($js);
+				}
+				$this->_bsComponent->addEvent($event,$code);
 			}
 		}
+	}
+
+	public function getOn($event,$url,$responseElement="",$parameters=array()){
+		$params=array("url"=>$url,"responseElement"=>$responseElement);
+		$params=array_merge($params,$parameters);
+		$this->_addEvent($event, new AjaxCall("get", $params));
+		return $this;
+	}
+
+	public function getOnClick($url,$responseElement="",$parameters=array()){
+		return $this->getOn("click", $url,$responseElement,$parameters);
+	}
+
+	public function postOn($event,$url,$params="{}",$responseElement="",$parameters=array()){
+		$params=array("url"=>$url,"params"=>$params,"responseElement"=>$responseElement);
+		$params=array_merge($params,$parameters);
+		$this->_addEvent($event, new AjaxCall("post", $params));
+		return $this;
+	}
+
+	public function postOnClick($url,$params="{}",$responseElement="",$parameters=array()){
+		return $this->postOn("click", $url,$params,$responseElement,$parameters);
+	}
+
+	public function postFormOn($event,$url,$form,$responseElement="",$parameters=array()){
+		$params=array("url"=>$url,"form"=>$form,"responseElement"=>$responseElement);
+		$params=array_merge($params,$parameters);
+		$this->_addEvent($event, new AjaxCall("postForm", $params));
+		return $this;
+	}
+
+	public function postFormOnClick($url,$form,$responseElement="",$parameters=array()){
+		return $this->postFormOn("click", $url,$form,$responseElement,$parameters);
 	}
 }

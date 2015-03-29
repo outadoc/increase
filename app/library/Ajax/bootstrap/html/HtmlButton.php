@@ -100,7 +100,7 @@ class HtmlButton extends HtmlDoubleElement {
 		if(array_key_exists("data-toggle", $this->properties)){
 			$this->_bsComponent->addCode("$.fn.toggled=function(){return this.hasClass('active');};");
 		}
-		$this->addEventsOnRun();
+		$this->addEventsOnRun($js);
 		return $this->_bsComponent;
 	}
 	/* (non-PHPdoc)
@@ -115,13 +115,6 @@ class HtmlButton extends HtmlDoubleElement {
 	}
 
 	public function onClick($jsCode,$stopPropagation=false,$preventDefault=false){
-		if($stopPropagation===true){
-			$jsCode="event.stopPropagation();".$jsCode;
-		}
-		if($preventDefault===true){
-			$jsCode="event.preventDefault();".$jsCode;
-		}
-		$this->events["click"]=$jsCode;
-		return $this;
+		return $this->addEvent("click", $jsCode,$stopPropagation,$preventDefault);
 	}
 }

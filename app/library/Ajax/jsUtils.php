@@ -115,14 +115,16 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	public function setLibraryFile($name){
 		$this->libraryFile=$name;
 	}
-	public function __construct($params = array())
-	{
+
+	public function setImageLoader($img){
+		$this->js->_setImageLoader($img);
+	}
+
+	public function __construct($params = array()){
 		$defaults = array('driver' => 'Jquery');
 
-		foreach ($defaults as $key => $val)
-		{
-			if (isset($params[$key]) && $params[$key] !== "")
-			{
+		foreach ($defaults as $key => $val){
+			if (isset($params[$key]) && $params[$key] !== ""){
 				$defaults[$key] = $params[$key];
 			}
 		}
@@ -131,6 +133,7 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 		$this->js=new Jquery();
 		$this->cdns=array();
 	}
+
 	public function addToCompile($jsScript){
 		$this->js->_addToCompile($jsScript);
 	}
@@ -470,7 +473,7 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
 	public function addClass($element = 'this', $class = '',$immediatly=false){
@@ -482,7 +485,7 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param string $element
 	 * @param string $attributeName
 	 * @param string $value
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly defers the execution if set to false
 	 */
 	public function attr($element = 'this' , $attributeName,$value='',$immediatly=false){
 		return $this->js->_attr($element, $attributeName,$value,$immediatly);
@@ -492,7 +495,7 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * Get or set the html of an attribute for the first element in the set of matched elements.
 	 * @param string $element
 	 * @param string $value
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly defers the execution if set to false
 	 */
 	public function html($element = 'this',$value='',$immediatly=false){
 		return $this->js->_html($element,$value,$immediatly);
@@ -509,30 +512,33 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function animate($element = 'this', $params = array(), $speed = '', $extra = ''){
-		return $this->js->_animate($element, $params, $speed, $extra);
+	public function animate($element = 'this', $params = array(), $speed = '', $extra = '',$immediatly=false){
+		return $this->js->_animate($element, $params, $speed, $extra,$immediatly);
 	}
 
 	/**
 	 * Insert content, specified by the parameter $element, to the end of each element in the set of matched elements $to.
 	 * @param string $to
 	 * @param string $element
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return string
 	 */
-	public function append($to = 'this',$element){
-		return $this->js->_append($to,$element);
+	public function append($to = 'this',$element,$immediatly=false){
+		return $this->js->_append($to,$element,$immediatly);
 	}
 
 	/**
 	 * Insert content, specified by the parameter $element, to the beginning of each element in the set of matched elements $to.
 	 * @param string $to
 	 * @param string $element
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return string
 	 */
-	public function prepend($to = 'this',$element){
-		return $this->js->_prepend($to,$element);
+	public function prepend($to = 'this',$element,$immediatly=false){
+		return $this->js->_prepend($to,$element,$immediatly);
 	}
 	// --------------------------------------------------------------------
 
@@ -545,10 +551,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function fadeIn($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_fadeIn($element, $speed, $callback);
+	public function fadeIn($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_fadeIn($element, $speed, $callback,$immediatly);
 	}
 
 	// --------------------------------------------------------------------
@@ -562,10 +569,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function fadeOut($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_fadeOut($element, $speed, $callback);
+	public function fadeOut($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_fadeOut($element, $speed, $callback,$immediatly);
 	}
 	// --------------------------------------------------------------------
 
@@ -578,10 +586,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function slideUp($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_slideUp($element, $speed, $callback);
+	public function slideUp($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_slideUp($element, $speed, $callback,$immediatly);
 
 	}
 
@@ -595,10 +604,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @access	public
 	 * @param	string	- element
 	 * @param	string	- Class to add
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function removeClass($element = 'this', $class = ''){
-		return $this->js->_removeClass($element, $class);
+	public function removeClass($element = 'this', $class = '',$immediatly=false){
+		return $this->js->_removeClass($element, $class,$immediatly);
 	}
 
 	// --------------------------------------------------------------------
@@ -612,10 +622,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function slideDown($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_slideDown($element, $speed, $callback);
+	public function slideDown($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_slideDown($element, $speed, $callback,$immediatly);
 	}
 
 	// --------------------------------------------------------------------
@@ -629,10 +640,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function slideToggle($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_slideToggle($element, $speed, $callback);
+	public function slideToggle($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_slideToggle($element, $speed, $callback,$immediatly);
 
 	}
 
@@ -647,10 +659,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function hide($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_hide($element, $speed, $callback);
+	public function hide($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_hide($element, $speed, $callback,$immediatly);
 	}
 
 	// --------------------------------------------------------------------
@@ -662,10 +675,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 *
 	 * @access	public
 	 * @param	string	- element
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function toggle($element = 'this'){
-		return $this->js->_toggle($element);
+	public function toggle($element = 'this',$immediatly=false){
+		return $this->js->_toggle($element,$immediatly);
 
 	}
 
@@ -678,19 +692,21 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 *
 	 * @access	public
 	 * @param	string	- element
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function toggleClass($element = 'this', $class=''){
-		return $this->js->_toggleClass($element, $class);
+	public function toggleClass($element = 'this', $class='',$immediatly=false){
+		return $this->js->_toggleClass($element, $class,$immediatly);
 	}
 
 	/**
 	 * Execute all handlers and behaviors attached to the matched elements for the given event.
 	 * @param string $element
 	 * @param string $event
+	 * @param boolean $immediatly defers the execution if set to false
 	 */
-	public function trigger($element='this',$event='click'){
-		return $this->js->_trigger($element, $event);
+	public function trigger($element='this',$event='click',$immediatly=false){
+		return $this->js->_trigger($element, $event,$immediatly);
 	}
 	// --------------------------------------------------------------------
 
@@ -703,10 +719,11 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
 	 * @return	string
 	 */
-	public function show($element = 'this', $speed = '', $callback = ''){
-		return $this->js->_show($element, $speed, $callback);
+	public function show($element = 'this', $speed = '', $callback = '',$immediatly=false){
+		return $this->js->_show($element, $speed, $callback,$immediatly);
 	}
 
 	/**
@@ -714,9 +731,10 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param string $condition
 	 * @param string $jsCodeIfTrue
 	 * @param string $jsCodeIfFalse
+	 * @param boolean $immediatly defers the execution if set to false
 	 */
-	function condition($condition,$jsCodeIfTrue,$jsCodeIfFalse=null){
-		return $this->js->_condition($condition, $jsCodeIfTrue,$jsCodeIfFalse);
+	function condition($condition,$jsCodeIfTrue,$jsCodeIfFalse=null,$immediatly=false){
+		return $this->js->_condition($condition, $jsCodeIfTrue,$jsCodeIfFalse,$immediatly);
 	}
 
 
@@ -967,144 +985,187 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	}
 
 	/**
-	 * Makes a GET ajax request
-	 * @param string $url Adresse de la requête
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
+	 * Performs an ajax GET request
+	 * @param string $url The url of the request
+	 * @param string $params JSON parameters
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function get($url,$responseElement="",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_get($url,$params,$responseElement,$function,$attr,true);
+	public function get($url,$responseElement="",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_get($url,$params,$responseElement,$jsCallback,$attr,true);
 	}
 
 	/**
-	 * Makes an ajax request and receives the JSON data types by assigning DOM elements with the same name
-	 * @param string $url the request address
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $method Method use
-	 * @param string $function callback
+	 * Performs an ajax request and receives the JSON data types by assigning DOM elements with the same name
+	 * @param string $url the request url
+	 * @param string $params JSON parameters
+	 * @param string $method Method used
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function json($url,$method="get",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_json($url,$method,$params,$function,$attr,true);
+	public function json($url,$method="get",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_json($url,$method,$params,$jsCallback,$attr,true);
 	}
 
 	/**
-	 * Makes an ajax request delayed and receives the JSON data types by assigning DOM elements with the same name
-	 * @param string $url the request address
+	 * Prepares an ajax request delayed and receives the JSON data types by assigning DOM elements with the same name
+	 * @param string $url the request url
 	 * @param string $params Paramètres passés au format JSON
-	 * @param string $method Method use
-	 * @param string $function callback
+	 * @param string $method Method used
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function jsonDeferred($url,$method="get",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_json($url,$method,$params,$function,$attr,false);
+	public function jsonDeferred($url,$method="get",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_json($url,$method,$params,$jsCallback,$attr,false);
 	}
 
 	/**
-	 * Makes an ajax request and receives the JSON array data types by assigning DOM elements with the same name
-	 * @param string $url the request address
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $method Method use
-	 * @param string $function callback
+	 * Performs an ajax request and receives the JSON array data types by assigning DOM elements with the same name
+	 * @param string $url the request url
+	 * @param string $params The JSON parameters
+	 * @param string $method Method used
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function jsonArray($maskSelector,$url,$method="get",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_jsonArray($maskSelector,$url,$method,$params,$function,$attr,true);
+	public function jsonArray($maskSelector,$url,$method="get",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_jsonArray($maskSelector,$url,$method,$params,$jsCallback,$attr,true);
 	}
 
 	/**
-	 * Makes an ajax request delayed and receives a JSON array data types by copying and assigning them to the DOM elements with the same name
-	 * @param string $url the request address
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $method Method use
-	 * @param string $function callback
+	 * Peforms an ajax request delayed and receives a JSON array data types by copying and assigning them to the DOM elements with the same name
+	 * @param string $url the request url
+	 * @param string $params JSON parameters
+	 * @param string $method Method used
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function jsonArrayDeferred($maskSelector,$url,$method="get",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_jsonArray($maskSelector,$url,$method,$params,$function,$attr,false);
+	public function jsonArrayDeferred($maskSelector,$url,$method="get",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_jsonArray($maskSelector,$url,$method,$params,$jsCallback,$attr,false);
 	}
 
 	/**
-	 * Prepare a Get ajax request
+	 * Prepares a Get ajax request
 	 * To use on an event
-	 * @param string $url Adresse de la requête
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
+	 * @param string $url The url of the request
+	 * @param string $params JSON parameters
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function getDeferred($url,$responseElement="",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_get($url,$params,$responseElement,$function,$attr,false);
+	public function getDeferred($url,$responseElement="",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_get($url,$params,$responseElement,$jsCallback,$attr,false);
 	}
 
 	/**
 	 * Performs a get to $url on the event $event on $element
-	 * puis affiche le résultat dans $responseElement
+	 * and display it in $responseElement
+	 * @param string $element
+	 * @param string $event
+	 * @param string $url The url of the request
+	 * @param string $params
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param boolean $preventDefault if set to true, prevent the default behavior
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $attr the attribute value to pass to the url (default : id attribute value)
+	 * @deprecated use getOn instead
+	 */
+	public function getAndBindTo($element,$event,$url,$responseElement="",$preventDefault=true,$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_getAndBindTo($element,$event,$url,$params,$responseElement,$preventDefault,true,$jsCallback,$attr);
+	}
+
+	/**
+	 * Performs a get to $url on the event $event on $element
+	 * and display it in $responseElement
+	 * @param string $element
+	 * @param string $event
+	 * @param string $url The url of the request
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id")
+	 */
+	public function getOn($element,$event,$url,$responseElement="",$parameters=array()){
+		$preventDefault=true;
+		$stopPropagation=true;
+		$jsCallback=null;
+		$params="{}";
+		$attr="id";
+		extract($parameters);
+		return $this->js->_getAndBindTo($element,$event,$url,$params,$responseElement,$preventDefault,$stopPropagation,$jsCallback,$attr);
+	}
+
+	/**
+	 * Makes an ajax post
+	 * @param string $url the request url
+	 * @param string $params JSON parameters
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
+	 */
+	public function post($url,$responseElement="",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_post($url,$params,$responseElement,$jsCallback,$attr,true);
+	}
+
+	/**
+	 * Prepares a delayed ajax POST
+	 * to use on an event
+	 * @param string $url the request url
+	 * @param string $params JSON parameters
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
+	 */
+	public function postDeferred($url,$responseElement="",$params="{}",$jsCallback=NULL,$attr="id"){
+		return $this->js->_post($url,$params,$responseElement,$jsCallback,$attr,false);
+	}
+
+	/**
+	 * Performs a post to $url on the event $event on $element and pass the parameters $params
+	 * Display the result in $responseElement
 	 * @param string $element
 	 * @param string $event
 	 * @param string $url
 	 * @param string $params
-	 * @param string $responseElement
-	 * @param string $function
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param boolean preventDefault
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @deprecated use postOn instead
 	 */
-	public function getAndBindTo($element,$event,$url,$responseElement="",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_getAndBindTo($element,$event,$url,$params,$responseElement,$function,$attr);
+	public function postAndBindTo($element,$event,$url,$params="{}",$responseElement="",$preventDefault=true,$jsCallback=NULL,$attr="id"){
+		return $this->js->_postAndBindTo($element,$event,$url,$params,$responseElement,$preventDefault,true,$jsCallback,$attr);
 	}
 
 	/**
-	 * Effectue un POST en ajax
-	 * @param string $url Adresse de la requête
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
-	 */
-	public function post($url,$responseElement="",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_post($url,$params,$responseElement,$function,$attr,true);
-	}
-
-	/**
-	 * Prépare un POST différé en ajax
-	 * A utiliser sur un event
-	 * @param string $url Adresse de la requête
-	 * @param string $params Paramètres passés au format JSON
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
-	 */
-	public function postDeferred($url,$responseElement="",$params="{}",$function=NULL,$attr="id"){
-		return $this->js->_post($url,$params,$responseElement,$function,$attr,false);
-	}
-
-	/**
-	 * Effectue un post vers $url sur l'évènement $event de $element en passant les paramètres $params
-	 * puis affiche le résultat dans $responseElement
+	 * Performs a post to $url on the event $event fired on $element and pass the parameters $params
+	 * Display the result in $responseElement
 	 * @param string $element
 	 * @param string $event
-	 * @param string $url
-	 * @param string $params
-	 * @param string $responseElement
-	 * @param string $function
+	 * @param string $url The url of the request
+	 * @param string $params The parameters to send
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id")
 	 */
-	public function postAndBindTo($element,$event,$url,$params="{}",$responseElement="",$function=NULL,$attr="id"){
-		return $this->js->_postAndBindTo($element,$event,$url,$params,$responseElement,$function,$attr);
+	public function postOn($element,$event,$url,$params="{}",$responseElement="",$parameters=array()){
+		$preventDefault=true;
+		$stopPropagation=true;
+		$jsCallback=null;
+		$attr="id";
+		extract($parameters);
+		return $this->js->_postAndBindTo($element,$event,$url,$params,$responseElement,$preventDefault,$stopPropagation,$jsCallback,$attr);
 	}
 
 	/**
 	 * Performs a post form with ajax
-	 * @param string $url Adresse de la requête
-	 * @param string $form id du formulaire à poster
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
+	 * @param string $url The url of the request
+	 * @param string $form The form HTML id
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function postForm($url,$form,$responseElement,$validation=false,$function=NULL,$attr="id"){
-		return $this->js->_postForm($url, $form, $responseElement,$validation,$function,$attr,true);
+	public function postForm($url,$form,$responseElement,$validation=false,$jsCallback=NULL,$attr="id"){
+		return $this->js->_postForm($url, $form, $responseElement,$validation,$jsCallback,$attr,true);
 	}
 
 	/**
 	 * Performs a delayed post form with ajax
 	 * For use on an event
-	 * @param string $url Adresse de la requête
-	 * @param string $form id du formulaire à poster
-	 * @param string $responseElement id de l'élément HTML affichant la réponse
-	 * @param string $function fonction appelée éventuellement après réception
+	 * @param string $url The url of the request
+	 * @param string $form The form HTML id
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function postFormDeferred($url,$form,$responseElement,$validation=false,$function=NULL,$attr="id"){
-		return $this->js->_postForm($url, $form, $responseElement,$validation,$function,$attr,false);
+	public function postFormDeferred($url,$form,$responseElement,$validation=false,$jsCallback=NULL,$attr="id"){
+		return $this->js->_postForm($url, $form, $responseElement,$validation,$jsCallback,$attr,false);
 	}
 
 	/**
@@ -1114,54 +1175,76 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	 * @param string $event
 	 * @param string $url
 	 * @param string $form
-	 * @param string $responseElement
-	 * @param string $function
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @deprecated use postFormOn instead
 	 */
-	public function postFormAndBindTo($element,$event,$url,$form,$responseElement="",$validation=false,$function=NULL,$attr="id"){
-		return $this->js->_postFormAndBindTo($element, $event,$url,$form,$responseElement,$validation,$function,$attr);
+	public function postFormAndBindTo($element,$event,$url,$form,$responseElement="",$preventDefault=true,$validation=false,$jsCallback=NULL,$attr="id"){
+		return $this->js->_postFormAndBindTo($element, $event,$url,$form,$responseElement,$preventDefault,true,$validation,$jsCallback,$attr);
 	}
 
 	/**
-	 * Call the JQuery callback $someThing on $element with facultative parameter $param
+	 * Performs a delayed post form with ajax in response to an event $event
+	 * display the result in $responseElement
+	 * @param string $element
+	 * @param string $event
+	 * @param string $url
+	 * @param string $form
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"jsCallback"=>NULL,"attr"=>"id")
+	 */
+	public function postFormOn($element,$event,$url,$form,$responseElement="",$parameters=array()){
+		$preventDefault=true;
+		$stopPropagation=true;
+		$validation=false;
+		$jsCallback=null;
+		$attr="id";
+		extract($parameters);
+		return $this->js->_postFormAndBindTo($element, $event,$url,$form,$responseElement,$preventDefault,$stopPropagation,$validation,$jsCallback,$attr);
+	}
+
+	/**
+	 * Calls the JQuery callback $someThing on $element with facultative parameter $param
 	 * @param string $element the element
 	 * @param string $jqueryCall the JQuery callback
 	 * @param mixed $param array or string parameters
-	 * @param string $function
+	 * @param string $jsCallback javascript code to execute after the jquery call
 	 * @return mixed
 	 */
-	public function doJQueryOn($element,$jqueryCall,$param="",$function=""){
-		return $this->js->_doJQueryOn($element, $jqueryCall,$param,$function,true);
+	public function doJQueryOn($element,$jqueryCall,$param="",$jsCallback=""){
+		return $this->js->_doJQueryOn($element, $jqueryCall,$param,$jsCallback,true);
 	}
 
 	/**
-	 * Call the JQuery callback $someThing on $element with facultative parameter $param
+	 * Calls the JQuery callback $someThing on $element with facultative parameter $param
 	 * @param string $element the element
 	 * @param string $jqueryCall the JQuery callback
 	 * @param mixed $param array or string parameters
-	 * @param string $function
+	 * @param string $jsCallback javascript code to execute after the jquery call
 	 * @return mixed
 	 */
-	public function doJQueryOnDeferred($element,$jqueryCall,$param="",$function=""){
-		return $this->js->_doJQueryOn($element, $jqueryCall,$param,$function,false);
+	public function doJQueryOnDeferred($element,$jqueryCall,$param="",$jsCallback=""){
+		return $this->js->_doJQueryOn($element, $jqueryCall,$param,$jsCallback,false);
 	}
 
 	/**
-	 * Call the JQuery callback $someThing on $element with facultative parameter $param  in response to an event $event
+	 * Calls the JQuery callback $someThing on $element with facultative parameter $param  in response to an event $event
 	 * @param string $element
 	 * @param string $event
 	 * @param string $elementToModify
 	 * @param string $jqueryCall
 	 * @param string $param
-	 * @param string $function
+	 * @param boolean $preventDefault
+	 * @param string $jsCallback javascript code to execute after the jquery call
 	 */
-	public function doJQueryAndBindTo($element,$event,$elementToModify,$jqueryCall,$param="",$function=""){
-		return $this->js->_doJQueryAndBindTo($element, $event,$elementToModify,$jqueryCall,$param,$function);
+	public function doJQueryAndBindTo($element,$event,$elementToModify,$jqueryCall,$param="",$preventDefault=false,$jsCallback=""){
+		return $this->js->_doJQueryAndBindTo($element, $event,$elementToModify,$jqueryCall,$param,$preventDefault,$jsCallback);
 	}
 
 	/**
-	 * Exécute le code $js
+	 * Executes the code $js
 	 * @param string $js Code to execute
-	 * @param string $immediatly delayed if false
+	 * @param boolean $immediatly delayed if false
 	 * @return String
 	 */
 	public function exec($js,$immediatly=false){
@@ -1170,14 +1253,15 @@ class JsUtils implements \Phalcon\DI\InjectionAwareInterface{
 	}
 
 	/**
-	 *
+	 * Executes the javascript code $js when $event fires on $element
 	 * @param string $element
 	 * @param string $event
-	 * @param string $js Code à exécuter
+	 * @param string $js Code to execute
+	 * @param boolean $preventDefault
 	 * @return String
 	 */
-	public function execAndBindTo($element,$event,$js){
-		$script= $this->js->_execAndBindTo($element,$event,$js);
+	public function execAndBindTo($element,$event,$js,$preventDefault=false){
+		$script= $this->js->_execAndBindTo($element,$event,$js,$preventDefault);
 		return $script;
 	}
 	public function getCDNs(){

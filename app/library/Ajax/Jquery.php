@@ -51,6 +51,11 @@ class Jquery extends JsUtils{
 	public function setLibraryFile($name){
 		$this->libraryFile=$name;
 	}
+
+	public function _setImageLoader($img){
+		$this->jquery_ajax_img=$img;
+	}
+
 	// --------------------------------------------------------------------
 	// Event Code
 	// --------------------------------------------------------------------
@@ -404,7 +409,7 @@ class Jquery extends JsUtils{
 	 *
 	 * @access	private
 	 * @param	string	- element
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
 	function _addClass($element = 'this', $class='',$immediatly=false){
@@ -421,7 +426,7 @@ class Jquery extends JsUtils{
 	 * @param string $element
 	 * @param string $attributeName
 	 * @param string $value
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly delayed if false
 	 */
 	function _attr($element = 'this' , $attributeName,$value="",$immediatly=false){
 		$element = $this->_prep_element($element);
@@ -440,7 +445,7 @@ class Jquery extends JsUtils{
 	 * Get or set the html of an attribute for the first element in the set of matched elements.
 	 * @param string $element
 	 * @param string $value
-	 * @param string $immediatly diffère l'exécution si false
+	 * @param boolean $immediatly delayed if false
 	 */
 	function _html($element = 'this' ,$value="",$immediatly=false){
 		$element = $this->_prep_element($element);
@@ -466,9 +471,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _animate($element = 'this', $params = array(), $speed = '', $extra = ''){
+	function _animate($element = 'this', $params = array(), $speed = '', $extra = '',$immediatly=false){
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
@@ -493,6 +499,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).animate({\n$animations\n\t\t}".$speed.$extra.");";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -500,24 +508,32 @@ class Jquery extends JsUtils{
 	 * Insert content, specified by the parameter $element, to the end of each element in the set of matched elements $to.
 	 * @param string $to
 	 * @param string $element
+	 * @param boolean $immediatly delayed if false
 	 * @return string
 	 */
-	public function _append($to = 'this',$element){
+	public function _append($to = 'this',$element,$immediatly=false){
 		$to = $this->_prep_element($to);
 		$element = $this->_prep_element($element);
-		return "$({$to}).append({$element});";
+		$str= "$({$to}).append({$element});";
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
+		return $str;
 	}
 
 	/**
 	 * Insert content, specified by the parameter $element, to the beginning of each element in the set of matched elements $to.
 	 * @param string $to
 	 * @param string $element
+	 * @param boolean $immediatly delayed if false
 	 * @return string
 	 */
-	public function _prepend($to = 'this',$element){
+	public function _prepend($to = 'this',$element,$immediatly=false){
 		$to = $this->_prep_element($to);
 		$element = $this->_prep_element($element);
-		return "$({$to}).prepend({$element});";
+		$str="$({$to}).prepend({$element});";
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
+		return $str;
 	}
 
 	// --------------------------------------------------------------------
@@ -531,9 +547,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _fadeIn($element = 'this', $speed = '', $callback = ''){
+	function _fadeIn($element = 'this', $speed = '', $callback = '',$immediatly=false){
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
@@ -544,6 +561,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).fadeIn({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -558,9 +577,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _fadeOut($element = 'this', $speed = '', $callback = ''){
+	function _fadeOut($element = 'this', $speed = '', $callback = '',$immediatly=false){
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
 
@@ -571,6 +591,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).fadeOut({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -585,9 +607,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _hide($element = 'this', $speed = '', $callback = '')
+	function _hide($element = 'this', $speed = '', $callback = '',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
@@ -599,6 +622,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).hide({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -611,12 +636,16 @@ class Jquery extends JsUtils{
 	 *
 	 * @access	private
 	 * @param	string	- element
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _removeClass($element = 'this', $class='')
+	function _removeClass($element = 'this', $class='',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$str  = "$({$element}).removeClass(\"$class\");";
+
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -631,9 +660,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _slideUp($element = 'this', $speed = '', $callback = '')
+	function _slideUp($element = 'this', $speed = '', $callback = '',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
@@ -645,6 +675,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).slideUp({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -659,9 +691,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _slideDown($element = 'this', $speed = '', $callback = '')
+	function _slideDown($element = 'this', $speed = '', $callback = '',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
@@ -673,6 +706,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).slideDown({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -687,9 +722,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _slideToggle($element = 'this', $speed = '', $callback = '')
+	function _slideToggle($element = 'this', $speed = '', $callback = '',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
@@ -701,6 +737,8 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).slideToggle({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -713,12 +751,16 @@ class Jquery extends JsUtils{
 	 *
 	 * @access	private
 	 * @param	string	- element
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _toggle($element = 'this')
+	function _toggle($element = 'this',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$str  = "$({$element}).toggle();";
+
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -731,12 +773,16 @@ class Jquery extends JsUtils{
 	 *
 	 * @access	private
 	 * @param	string	- element
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _toggleClass($element = 'this', $class='')
+	function _toggleClass($element = 'this', $class='',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$str  = "$({$element}).toggleClass(\"$class\");";
+
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -744,10 +790,14 @@ class Jquery extends JsUtils{
 	 * Execute all handlers and behaviors attached to the matched elements for the given event.
 	 * @param string $element
 	 * @param string $event
+	 * @param boolean $immediatly delayed if false
 	 */
-	public function _trigger($element='this',$event='click'){
+	public function _trigger($element='this',$event='click',$immediatly=false){
 		$element = $this->_prep_element($element);
 		$str  = "$({$element}).trigger(\"$event\");";
+
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -762,9 +812,10 @@ class Jquery extends JsUtils{
 	 * @param	string	- element
 	 * @param	string	- One of 'slow', 'normal', 'fast', or time in milliseconds
 	 * @param	string	- Javascript callback function
+	 * @param boolean $immediatly delayed if false
 	 * @return	string
 	 */
-	function _show($element = 'this', $speed = '', $callback = '')
+	function _show($element = 'this', $speed = '', $callback = '',$immediatly=false)
 	{
 		$element = $this->_prep_element($element);
 		$speed = $this->_validate_speed($speed);
@@ -776,14 +827,27 @@ class Jquery extends JsUtils{
 
 		$str  = "$({$element}).show({$speed}{$callback});";
 
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
-	function _condition($condition, $jsCodeIfTrue,$jsCodeIfFalse=null){
+	/**
+	 * Places a condition
+	 * @param string $condition
+	 * @param string $jsCodeIfTrue
+	 * @param string $jsCodeIfFalse
+	 * @param boolean $immediatly delayed if false
+	 * @return string
+	 */
+	function _condition($condition, $jsCodeIfTrue,$jsCodeIfFalse=null,$immediatly=false){
 		$str="if(".$condition."){".$jsCodeIfTrue."}";
 		if(isset($jsCodeIfFalse)){
 			$str.="else{".$jsCodeIfFalse."}";
 		}
+
+		if($immediatly)
+			$this->jquery_code_for_compile[] = $str;
 		return $str;
 	}
 
@@ -810,12 +874,10 @@ class Jquery extends JsUtils{
 		$controller = (strpos('://', $controller) === FALSE) ? $controller : $url->get($controller);
 
 		// ajaxStart and ajaxStop are better choices here... but this is a stop gap
-		if ($this->jquery_ajax_img == '')
-		{
+		if ($this->jquery_ajax_img == ''){
 			$loading_notifier = "Loading...";
 		}
-		else
-		{
+		else{
 			$loading_notifier = $this->_di->get("tag")->image($this->jquery_ajax_img);
 		}
 
@@ -836,16 +898,15 @@ class Jquery extends JsUtils{
 
 
 	// --------------------------------------------------------------------
-	// Pre-written handy stuff
+	// TO remove ?
 	// --------------------------------------------------------------------
 
 	/**
 	 * Zebra tables
-	 *
-	 * @access	private
-	 * @param	string	table name
-	 * @param	string	plugin location
-	 * @return	string
+	 * @param string $class
+	 * @param string $odd
+	 * @param string $hover
+	 * @return string
 	 */
 	function _zebraTables($class = '', $odd = 'odd', $hover = '')
 	{
@@ -867,75 +928,6 @@ class Jquery extends JsUtils{
 
 	// --------------------------------------------------------------------
 	// Plugins
-	// --------------------------------------------------------------------
-
-	/**
-	 * Corner Plugin
-	 *
-	 * http://www.malsup.com/jquery/corner/
-	 *
-	 * @access	public
-	 * @param	string	target
-	 * @return	string
-	 */
-	function corner($element = '', $corner_style = '')
-	{
-		// may want to make this configurable down the road
-		$corner_location = '/plugins/jquery.corner.js';
-
-		if ($corner_style != '')
-		{
-			$corner_style = '"'.$corner_style.'"';
-		}
-
-		return "$(" . $this->_prep_element($element) . ").corner(".$corner_style.");";
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * modal window
-	 *
-	 * Load a thickbox modal window
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	function modal($src, $relative = FALSE)
-	{
-		$this->jquery_code_for_load[] = $this->external($src, $relative);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Effect
-	 *
-	 * Load an Effect library
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	function effect($src, $relative = FALSE)
-	{
-		$this->jquery_code_for_load[] = $this->external($src, $relative);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Plugin
-	 *
-	 * Load a plugin library
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	function plugin($src, $relative = FALSE)
-	{
-		$this->jquery_code_for_load[] = $this->external($src, $relative);
-	}
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -1008,14 +1000,20 @@ class Jquery extends JsUtils{
 	 * @param	string	The element to attach the event to
 	 * @param	string	The code to execute
 	 * @param	string	The event to pass
+	 * @param boolean preventDefault If set to true, the default action of the event will not be triggered.
+	 * @param boolean stopPropagation Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
 	 * @return	string
 	 */
-	function _add_event($element, $js, $event)
+	function _add_event($element, $js, $event,$preventDefault=false,$stopPropagation=false)
 	{
-		if (is_array($js))
-		{
+		if (is_array($js)){
 			$js = implode("\n\t\t", $js);
-
+		}
+		if($preventDefault===true){
+			$js="event.preventDefault();\n".$js;
+		}
+		if($stopPropagation===true){
+			$js="event.stopPropagation();\n".$js;
 		}
 		if(array_search($event, $this->jquery_events)===false)
 			$event="\n\t$(" . $this->_prep_element($element) . ").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
@@ -1036,8 +1034,7 @@ class Jquery extends JsUtils{
 	 * @access	private
 	 * @return	string
 	 */
-	function _compile($view=NULL, $view_var = 'script_foot', $script_tags = TRUE)
-	{
+	function _compile($view=NULL, $view_var = 'script_foot', $script_tags=TRUE){
 		//Components UI
 		$ui=$this->ui();
 		if($this->ui()!=NULL){
@@ -1090,8 +1087,7 @@ class Jquery extends JsUtils{
 	 * @access	public
 	 * @return	void
 	 */
-	function _clear_compile()
-	{
+	function _clear_compile(){
 		$this->jquery_code_for_compile = array();
 	}
 
@@ -1105,16 +1101,13 @@ class Jquery extends JsUtils{
 	 * @access	private
 	 * @return	string
 	 */
-	function _document_ready($js)
-	{
-		if ( ! is_array($js))
-		{
+	function _document_ready($js){
+		if ( ! is_array($js)){
 			$js = array ($js);
 
 		}
 
-		foreach ($js as $script)
-		{
+		foreach ($js as $script){
 			$this->jquery_code_for_compile[] = $script;
 		}
 	}
@@ -1130,8 +1123,7 @@ class Jquery extends JsUtils{
 	 * @param	string
 	 * @return	string
 	 */
-	function script($library_src = '', $relative = FALSE)
-	{
+	function script($library_src = '', $relative = FALSE){
 		$library_src = $this->external($library_src, $relative);
 		$this->jquery_code_for_load[] = $library_src;
 		return $library_src;
@@ -1189,34 +1181,44 @@ class Jquery extends JsUtils{
 	 * @param	string
 	 * @return	string
 	 */
-	function _validate_speed($speed)
-	{
-		if (in_array($speed, array('slow', 'normal', 'fast')))
-		{
+	function _validate_speed($speed){
+		if (in_array($speed, array('slow', 'normal', 'fast'))){
 			$speed = '"'.$speed.'"';
 		}
-		elseif (preg_match("/[^0-9]/", $speed))
-		{
+		elseif (preg_match("/[^0-9]/", $speed)){
 			$speed = '';
 		}
 
 		return $speed;
 	}
 //------------------------------------------------------------------------
-	protected function _get($url,$params="{}",$responseElement="",$function=NULL,$attr="id",$immediatly=false){
+	protected function addLoading(&$retour,$responseElement){
+		if ($this->jquery_ajax_img == ''){
+			$loading_notifier = "Loading...";
+		}
+		else{
+			$loading_notifier = $this->_di->get("tag")->image(array($this->jquery_ajax_img,"class"=>"ajax-loader"));
+		}
+
+		$retour .= "$(\"{$responseElement}\").empty();\n";
+		$retour .= "\t\t$(\"{$responseElement}\").prepend('{$loading_notifier}');\n";
+	}
+
+	protected function _get($url,$params="{}",$responseElement="",$jsCallback=NULL,$attr="id",$immediatly=false){
 		$url=$this->_correctAjaxUrl($url);
-		$function=isset($function)?$function:"";
+		$jsCallback=isset($jsCallback)?$jsCallback:"";
 		$retour="url='".$url."';\n";
 		if($attr=="value")
 			$retour.="url=url+'/'+$(this).val();\n";
 		else
 			$retour.="url=url+'/'+$(this).attr('".$attr."');\n";
+		$this->addLoading($retour, $responseElement);
 		$retour.="$.get(url,".$params.").done(function( data ) {\n";
 		if($responseElement!==""){
 			$responseElement=$this->_prep_value($responseElement);
 			$retour.="\t$({$responseElement}).html( data );\n";
 		}
-		$retour.="\t".$function."\n
+		$retour.="\t".$jsCallback."\n
 		});\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[] = $retour;
@@ -1228,11 +1230,11 @@ class Jquery extends JsUtils{
 	 * @param string $url the request address
 	 * @param string $params Paramètres passés au format JSON
 	 * @param string $method Method use
-	 * @param string $function callback
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function _json($url,$method="get",$params="{}",$function=NULL,$attr="id",$immediatly=false){
+	public function _json($url,$method="get",$params="{}",$jsCallback=NULL,$attr="id",$immediatly=false){
 		$url=$this->_correctAjaxUrl($url);
-		$function=isset($function)?$function:"";
+		$jsCallback=isset($jsCallback)?$jsCallback:"";
 		$retour="url='".$url."';\n";
 		if($attr=="value")
 			$retour.="url=url+'/'+$(this).val();\n";
@@ -1240,7 +1242,7 @@ class Jquery extends JsUtils{
 			$retour.="url=url+'/'+$(this).attr('".$attr."');\n";
 		$retour.="$.{$method}(url,".$params.").done(function( data ) {\n";
 		$retour.="\tdata=$.parseJSON(data);for(var key in data){if($('#'+key).length){ if($('#'+key).is('[value]')) { $('#'+key).val(data[key]);} else { $('#'+key).html(data[key]); }}};\n";
-		$retour.="\t".$function."\n
+		$retour.="\t".$jsCallback."\n
 		});\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[] = $retour;
@@ -1252,11 +1254,11 @@ class Jquery extends JsUtils{
 	 * @param string $url the request address
 	 * @param string $params Paramètres passés au format JSON
 	 * @param string $method Method use
-	 * @param string $function callback
+	 * @param string $jsCallback javascript code to execute after the request
 	 */
-	public function _jsonArray($maskSelector,$url,$method="get",$params="{}",$function=NULL,$attr="id",$immediatly=false){
+	public function _jsonArray($maskSelector,$url,$method="get",$params="{}",$jsCallback=NULL,$attr="id",$immediatly=false){
 		$url=$this->_correctAjaxUrl($url);
-		$function=isset($function)?$function:"";
+		$jsCallback=isset($jsCallback)?$jsCallback:"";
 		$retour="url='".$url."';\n";
 		if($attr=="value")
 			$retour.="url=url+'/'+$(this).val();\n";
@@ -1285,46 +1287,48 @@ class Jquery extends JsUtils{
 		"\t$(newElm).show(true);".
 		"});\n";
 
-		$retour.="\t".$function."\n".
+		$retour.="\t".$jsCallback."\n".
 		"});\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[] = $retour;
 		return $retour;
 	}
 
-	public function _post($url,$params="{}",$responseElement="",$function=NULL,$attr="id",$immediatly=false){
+	public function _post($url,$params="{}",$responseElement="",$jsCallback=NULL,$attr="id",$immediatly=false){
 		$url=$this->_correctAjaxUrl($url);
-		$function=isset($function)?$function:"";
+		$jsCallback=isset($jsCallback)?$jsCallback:"";
 		$retour="url='".$url."';\n";
 		if($attr=="value")
 			$retour.="url=url+'/'+$(this).val();\n";
 		else
 			$retour.="url=url+'/'+$(this).attr('".$attr."');\n";
+		$this->addLoading($retour, $responseElement);
 		$retour.="$.post(url,".$params.").done(function( data ) {\n";
 		if($responseElement!==""){
 			$responseElement=$this->_prep_value($responseElement);
 			$retour.="\t$({$responseElement}).html( data );\n";
 		}
-		$retour.="\t".$function."\n
+		$retour.="\t".$jsCallback."\n
 		});\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[] = $retour;
 		return $retour;
 	}
-	public function _postForm($url,$form,$responseElement,$validation=false,$function=NULL,$attr="id",$immediatly=false){
+	public function _postForm($url,$form,$responseElement,$validation=false,$jsCallback=NULL,$attr="id",$immediatly=false){
 		$url=$this->_correctAjaxUrl($url);
-		$function=isset($function)?$function:"";
+		$jsCallback=isset($jsCallback)?$jsCallback:"";
 		$retour="url='".$url."';\n";
 		if($attr=="value")
 			$retour.="url=url+'/'+$(this).val();\n";
 		else
 			$retour.="url=url+'/'+$(this).attr('".$attr."');\n";
-		$retour.="$.post(url,$(".$form.").serialize()).done(function( data ) {\n";
+		$this->addLoading($retour, $responseElement);
+		$retour.="$.post(url,$('#".$form."').serialize()).done(function( data ) {\n";
 		if($responseElement!==""){
 			$responseElement=$this->_prep_value($responseElement);
 			$retour.="\t$({$responseElement}).html( data );\n";
 		}
-		$retour.="\t".$function."\n
+		$retour.="\t".$jsCallback."\n
 		});\n";
 		if($validation){
 			$retour="$('#".$form."').validate({submitHandler: function(form) {
@@ -1344,10 +1348,12 @@ class Jquery extends JsUtils{
 	 * @param string $url
 	 * @param string $params
 	 * @param string $responseElement
-	 * @param string $function
+	 * @param boolean $preventDefault
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $attr the attribute value to pass to the url (default : id attribute value)
 	 */
-	public function _getAndBindTo($element,$event,$url,$params="{}",$responseElement="",$function=NULL,$attr="id"){
-		$script= $this->_add_event($element,  $this->_get($url, $params,$responseElement,$function,$attr),$event);
+	public function _getAndBindTo($element,$event,$url,$params="{}",$responseElement="",$preventDefault=true,$stopPropagation=true,$jsCallback=NULL,$attr="id"){
+		$script= $this->_add_event($element, $this->_get($url, $params,$responseElement,$jsCallback,$attr),$event,$preventDefault,$stopPropagation);
 		return $script;
 	}
 
@@ -1359,10 +1365,12 @@ class Jquery extends JsUtils{
 	 * @param string $url
 	 * @param string $params
 	 * @param string $responseElement
-	 * @param string $function
+	 * @param boolean $preventDefault
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $attr the attribute value to pass to the url (default : id attribute value)
 	 */
-	public function _postAndBindTo($element,$event,$url,$params="{}",$responseElement="",$function=NULL,$attr="id"){
-		$script= $this->_add_event($element,  $this->_post($url, $params,$responseElement,$function,$attr),$event);
+	public function _postAndBindTo($element,$event,$url,$params="{}",$responseElement="",$preventDefault=true,$stopPropagation=true,$jsCallback=NULL,$attr="id"){
+		$script= $this->_add_event($element,  $this->_post($url, $params,$responseElement,$jsCallback,$attr),$event,$preventDefault,$stopPropagation);
 		return $script;
 	}
 
@@ -1374,10 +1382,12 @@ class Jquery extends JsUtils{
 	 * @param string $url
 	 * @param string $form
 	 * @param string $responseElement
-	 * @param string $function
+	 * @param boolean $preventDefault
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $attr the attribute value to pass to the url (default : id attribute value)
 	 */
-	public function _postFormAndBindTo($element,$event,$url,$form,$responseElement="",$validation=false,$function=NULL,$attr="id"){
-		$script= $this->_add_event($element,$this->_postForm($url,$form,$responseElement,$validation,$function,$attr),$event);
+	public function _postFormAndBindTo($element,$event,$url,$form,$responseElement="",$preventDefault=true,$stopPropagation=true,$validation=false,$jsCallback=NULL,$attr="id"){
+		$script= $this->_add_event($element,$this->_postForm($url,$form,$responseElement,$validation,$jsCallback,$attr),$event,$preventDefault,$stopPropagation);
 		return $script;
 	}
 
@@ -1386,13 +1396,14 @@ class Jquery extends JsUtils{
 	 * @param string $element
 	 * @param string $jqueryCall
 	 * @param mixed $param
+	 * @param string $jsCallback javascript code to execute after the jquery call
 	 * @return string
 	 */
-	public function _doJQueryOn($element,$jqueryCall,$param="",$function="",$immediatly=false){
+	public function _doJQueryOn($element,$jqueryCall,$param="",$jsCallback="",$immediatly=false){
 		$param=$this->_prep_value($param);
 		$callback="";
-		if($function!="")
-			$callback = ", function(event){\n{$function}\n}";
+		if($jsCallback!="")
+			$callback = ", function(event){\n{$jsCallback}\n}";
 		$script= "$(".$this->_prep_element($element).").".$jqueryCall."(".$param.$callback.");\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[] = $script;
@@ -1406,9 +1417,11 @@ class Jquery extends JsUtils{
 	 * @param string $elementToModify
 	 * @param string $jqueryCall
 	 * @param string/array $param
+	 * @param boolean $preventDefault
+	 * @param string $jsCallback javascript code to execute after the jquery call
 	 */
-	public function _doJQueryAndBindTo($element,$event,$elementToModify,$jqueryCall,$param="",$function=""){
-		$script= $this->_add_event($element, $this->_doJQueryOn($elementToModify,$jqueryCall,$param,$function),$event);
+	public function _doJQueryAndBindTo($element,$event,$elementToModify,$jqueryCall,$param="",$preventDefault=false,$jsCallback=""){
+		$script= $this->_add_event($element, $this->_doJQueryOn($elementToModify,$jqueryCall,$param,$jsCallback),$event,$preventDefault);
 		return $script;
 	}
 
@@ -1430,10 +1443,11 @@ class Jquery extends JsUtils{
 	 * @param string $element
 	 * @param string $event
 	 * @param string $js Code à exécuter
+	 * @param boolean $preventDefault
 	 * @return String
 	 */
-	public function _execAndBindTo($element,$event,$js){
-		$script= $this->_add_event($element, $this->_exec($js),$event);
+	public function _execAndBindTo($element,$event,$js,$preventDefault=false){
+		$script= $this->_add_event($element, $this->_exec($js),$event,$preventDefault);
 		return $script;
 	}
 }

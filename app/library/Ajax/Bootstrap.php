@@ -20,6 +20,7 @@ use Ajax\bootstrap\html\HtmlGlyphButton;
 use Ajax\bootstrap\html\HtmlNavbar;
 use Ajax\bootstrap\html\HtmlPanel;
 use Ajax\bootstrap\html\HtmlProgressbar;
+use Ajax\bootstrap\html\HtmlTabs;
 use Ajax\common\BaseGui;
 
 include_once 'bootstrap/js/Draggable.php';
@@ -246,5 +247,15 @@ class Bootstrap extends BaseGui{
 	public function htmlCarousel($identifier){
 		$caroussel=new HtmlCarousel($identifier);
 		return $this->addHtmlComponent($caroussel);
+	}
+
+	/**
+	 * Return a new Bootstrap Html tabs
+	 * @param string $identifier
+	 * @return HtmlTabs
+	 */
+	public function htmlTabs($identifier){
+		$tabs=new HtmlTabs($identifier);
+		return $this->addHtmlComponent($tabs);
 	}
 }
